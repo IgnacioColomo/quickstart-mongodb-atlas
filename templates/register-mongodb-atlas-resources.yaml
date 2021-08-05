@@ -39,7 +39,7 @@ Parameters:
     ConstraintDescription: Quick Start bucket name can include numbers, lowercase
       letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
       (-).
-    Default: aws-quickstart
+    Default: templates-atlas-aws
     Description: S3 bucket name for the Quick Start assets. This string can include
       numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start
       or end with a hyphen (-).
@@ -48,7 +48,7 @@ Parameters:
     AllowedPattern: ^[0-9a-zA-Z-/.]*$
     ConstraintDescription: Quick Start key prefix can include numbers, lowercase letters,
       uppercase letters, hyphens (-), and forward slash (/).
-    Default: quickstart-mongodb-atlas/
+    Default: ""
     Description: S3 key prefix for the Quick Start assets. Quick Start key prefix
       can include numbers, lowercase letters, uppercase letters, hyphens (-), and
       forward slash (/).
@@ -57,6 +57,10 @@ Resources:
   LambdaZipsBucket:
     Type: AWS::S3::Bucket
     Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
       Tags: []
   RegisterTypeRole:
     Type: AWS::IAM::Role
@@ -225,6 +229,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                - "kms:*"
                 - "secretsmanager:CreateSecret"
                 - "secretsmanager:DeleteSecret"
                 - "secretsmanager:DescribeSecret"
@@ -262,7 +267,7 @@ Resources:
                   print(('dest_bucket = %s'%dest_bucket))
                   print(('key = %s' %key))
                   s3.copy_object(CopySource=copy_source, Bucket=dest_bucket,
-                        Key=key)
+                        Key=key, ServerSideEncryption='AES256')
           
 
           def delete_objects(bucket, prefix, objects):

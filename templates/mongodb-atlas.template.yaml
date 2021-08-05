@@ -132,6 +132,7 @@ Resources:
     Type: 'AWS::SecretsManager::Secret'
     Properties:
       Name: !Sub "${AWS::StackName}-ApiKey-Secret"
+      KmsKeyId: 622b8678-512e-4051-b226-64756f47b4a2
       Description: MongoDB Atlas API Key
       #
       # { "PublicKey" : "xxx", "PrivateKey", "yyy", "OrgId": "zzz" }

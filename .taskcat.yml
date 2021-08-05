@@ -10,7 +10,7 @@ project:
 tests:
   mdb-atlas:
     regions:
-    - us-east-1
+    - eu-west-2
     parameters:
       PublicKey: override
       PrivateKey: override
@@ -21,7 +21,7 @@ tests:
     template: templates/mongodb-atlas-main.template.yaml
   mdb-atlas-vpc:
     regions:
-    - us-west-2
+    - eu-west-2
     parameters:
       PublicKey: override
       PrivateKey: override
